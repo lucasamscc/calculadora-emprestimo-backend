@@ -43,8 +43,7 @@ public class InstallmentCalculatorService {
         BigDecimal factor = BigDecimal.ONE.divide(onePlusRate.pow(numberOfInstallments, MC), MC);
         BigDecimal denominator = BigDecimal.ONE.subtract(factor, MC);
 
-        return loanValue.multiply(monthlyRate, MC)
-                        .divide(denominator, 2, RoundingMode.HALF_UP);
+        return loanValue.multiply(monthlyRate, MC).divide(denominator, 2, RoundingMode.HALF_UP);
     }
 
     /**

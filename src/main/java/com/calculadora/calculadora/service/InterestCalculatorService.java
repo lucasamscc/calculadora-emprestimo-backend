@@ -28,7 +28,6 @@ public class InterestCalculatorService {
         double growth = Math.pow(BigDecimal.ONE.add(rate, MC).doubleValue(), exponent);
         BigDecimal rateFactor = BigDecimal.valueOf(growth).subtract(BigDecimal.ONE, MC);
 
-        return rateFactor.multiply(balance.add(accumulatedInterest), MC)
-                         .setScale(2, RoundingMode.HALF_UP);
+        return rateFactor.multiply(balance.add(accumulatedInterest), MC).setScale(2, RoundingMode.HALF_UP);
     }
 }

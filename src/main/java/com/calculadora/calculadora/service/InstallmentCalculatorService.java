@@ -70,6 +70,11 @@ public class InstallmentCalculatorService {
         int installmentCounter = 0;
 
         for (LocalDate currentDate : accrualDates) {
+
+            if (balance.compareTo(BigDecimal.ZERO) <= 0 && !currentDate.equals(loan.getLoanStartDate())) {
+                break;
+            }
+
             long daysBetween = ChronoUnit.DAYS.between(previousDate, currentDate);
             BigDecimal provision = calculateProvision(balance, accumulatedInterest, interestRate, daysBetween);
             accumulatedInterest = accumulatedInterest.add(provision).setScale(2, RoundingMode.HALF_UP);
@@ -79,13 +84,20 @@ public class InstallmentCalculatorService {
             BigDecimal interestPaid = BigDecimal.ZERO;
             BigDecimal principal = BigDecimal.ZERO;
             BigDecimal installment = BigDecimal.ZERO;
-            BigDecimal amountPaid = BigDecimal.ZERO;
+
+            if (isPaymentDay && installmentCounter >= numberOfInstallments) {
+                continue;
+            }
 
             if (isPaymentDay) {
                 interestPaid = accumulatedInterest.setScale(2, RoundingMode.HALF_UP);
                 principal = amortization.setScale(2, RoundingMode.HALF_UP);
+
+                if (principal.compareTo(balance) > 0) {
+                    principal = balance;
+                }
+
                 installment = principal.add(interestPaid);
-                amountPaid = installment;
                 balance = balance.subtract(principal).setScale(2, RoundingMode.HALF_UP);
                 accumulatedInterest = BigDecimal.ZERO;
                 installmentCounter++;
@@ -104,7 +116,6 @@ public class InstallmentCalculatorService {
                 provision,
                 interestPaid,
                 principal,
-                amountPaid,
                 accumulatedInterest,
                 installment,
                 installmentNumber,
@@ -155,7 +166,6 @@ public class InstallmentCalculatorService {
      * @param provision
      * @param interestPaid
      * @param amortization
-     * @param amountPaid
      * @param accumulatedInterest
      * @param installmentValue
      * @param installmentNumber
@@ -168,7 +178,6 @@ public class InstallmentCalculatorService {
         BigDecimal provision,
         BigDecimal interestPaid,
         BigDecimal amortization,
-        BigDecimal amountPaid,
         BigDecimal accumulatedInterest,
         BigDecimal installmentValue,
         String installmentNumber,
@@ -184,7 +193,6 @@ public class InstallmentCalculatorService {
             .amortization(amortization)
             .interestPaid(interestPaid)
             .accruedInterest(installmentValue.signum() > 0 ? BigDecimal.ZERO : accumulatedInterest)
-            .amountPaid(amountPaid)
             .installmentNumber(installmentNumber)
             .principalAmount(isFirstRow ? principalAmount : BigDecimal.ZERO)
             .build();

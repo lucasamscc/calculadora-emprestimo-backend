@@ -26,5 +26,4 @@ public class InstallmentDetailDTO {
     private BigDecimal provision;
     private BigDecimal accruedInterest;
     private BigDecimal interestPaid;
-    private BigDecimal amountPaid;
 }

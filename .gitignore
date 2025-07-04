@@ -2,12 +2,15 @@
 HELP.md
 
 # Pastas de build
-/target/
+# Ignora tudo na pasta target
+/target/*
+# MAS permite o JAR
+!/target/
+!/target/*.jar
+
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-!**/src/main/**/target/
-!**/src/test/**/target/
 
 # Maven Wrapper
 .mvn/

@@ -1,0 +1,52 @@
+# Arquivos de ajuda
+HELP.md
+
+# Pastas de build
+/target/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Maven Wrapper
+.mvn/
+.mvn/wrapper/maven-wrapper.jar
+!/.mvn/wrapper/maven-wrapper.properties
+
+# Arquivos temporários
+*.log
+*.tmp
+*.bak
+
+# IDEs
+
+## Spring Tool Suite (STS) / Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+## IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+## NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+## Visual Studio Code
+.vscode/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
